@@ -1,10 +1,15 @@
+[tool.black]
+line-length = 120
+
 [tool.isort]
 profile = "black"
+line_length = 120
 
 [tool.tox]
 legacy_tox_ini = """
 [tox]
 envlist = py37,py38
+skipsdist = True
 
 [testenv]
 depends = clean-coverage
@@ -13,4 +18,9 @@ setenv =
 parallel_show_output = True
 whitelist_externals = pytest
 commands = pytest -p no:cacheprovider --cov=pbatch --cov-report term-missing {posargs} tests/
+
+[testenv:pre-commit]
+deps = pre-commit
+whitelist_externals = pre-commit
+commands = pre-commit run --all-files
 """

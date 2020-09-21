@@ -5,9 +5,7 @@ from typing import Any, Callable, Coroutine, Iterable, List, Optional, Tuple, Ty
 OutputType = TypeVar("OutputType")
 
 
-def partition(
-    items: Iterable[OutputType], chunk_size: Optional[int]
-) -> Iterable[List[OutputType]]:
+def partition(items: Iterable[OutputType], chunk_size: Optional[int]) -> Iterable[List[OutputType]]:
     """Partition an iterable of items into lists of at most the specified
     chunk size
 
@@ -20,9 +18,7 @@ def partition(
     """
 
     positive_int = isinstance(chunk_size, int) and chunk_size > 0
-    assert (
-        chunk_size is None or positive_int
-    ), "Chunk size must be a positive int (or None)"
+    assert chunk_size is None or positive_int, "Chunk size must be a positive int (or None)"
 
     iterator = iter(items)
     part = list(itertools.islice(iterator, chunk_size))
@@ -184,7 +180,5 @@ def _run_pmap(
         loop.close()
 
 
-def _run_in_background(
-    f: Callable[..., OutputType], loop, args, kwargs
-) -> Coroutine[Any, Any, OutputType]:
+def _run_in_background(f: Callable[..., OutputType], loop, args, kwargs) -> Coroutine[Any, Any, OutputType]:
     return loop.run_in_executor(None, lambda: f(*args, **kwargs))

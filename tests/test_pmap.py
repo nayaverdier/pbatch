@@ -48,9 +48,7 @@ def test_square_function(items, expected):
         return x ** 2
 
     if any(isinstance(result, Exception) for result in expected):
-        expected_exceptions = [
-            result for result in expected if isinstance(result, Exception)
-        ]
+        expected_exceptions = [result for result in expected if isinstance(result, Exception)]
 
         with pytest.raises(pbatch.PMapException) as info:
             pbatch.pmap(square, items)
@@ -58,13 +56,8 @@ def test_square_function(items, expected):
         assert str(info.value) == str(expected)
         assert repr(info.value) == repr(expected)
 
-        assert _stringify_exceptions(info.value.results) == _stringify_exceptions(
-            expected
-        )
-        assert all(
-            actual.args == expected.args
-            for actual, expected in zip(info.value.exceptions, expected_exceptions)
-        )
+        assert _stringify_exceptions(info.value.results) == _stringify_exceptions(expected)
+        assert all(actual.args == expected.args for actual, expected in zip(info.value.exceptions, expected_exceptions))
     else:
         assert pbatch.pmap(square, items) == expected
 

@@ -26,22 +26,16 @@ def test_performance_multiple_arity(chunk_size, include_power):
         time.sleep(PERFORMANCE_SLEEP_TIME)
         return x ** power
 
-    number_partitions = len(
-        list(pbatch.partition(PERFORMANCE_ITEMS, chunk_size=chunk_size))
-    )
+    number_partitions = len(list(pbatch.partition(PERFORMANCE_ITEMS, chunk_size=chunk_size)))
     # plus one for buffer of execution overhead (assuming overhead is
     # less than PERFORMANCE_SLEEP_TIME)
     max_time = PERFORMANCE_SLEEP_TIME * (number_partitions + 1)
 
     if include_power:
         powers = [3] * len(PERFORMANCE_ITEMS)
-        results, duration = timed(
-            pbatch.pmap, sleep_exp, PERFORMANCE_ITEMS, powers, chunk_size=chunk_size
-        )
+        results, duration = timed(pbatch.pmap, sleep_exp, PERFORMANCE_ITEMS, powers, chunk_size=chunk_size)
     else:
-        results, duration = timed(
-            pbatch.pmap, sleep_exp, PERFORMANCE_ITEMS, chunk_size=chunk_size
-        )
+        results, duration = timed(pbatch.pmap, sleep_exp, PERFORMANCE_ITEMS, chunk_size=chunk_size)
 
     if include_power:
         assert results == [0, 1, 8, 27, 64, 125, 216, 343, 512, 729]

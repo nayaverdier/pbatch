@@ -66,10 +66,7 @@ def test_items_and_chunk_size_kwargs(items, chunk_size, expected_list):
 
 @pytest.mark.parametrize(PARAMETERS, EXPECTED_PARTITIONS)
 def test_tuple_items(items, chunk_size, expected_list):
-    assert (
-        list(pbatch.partition(items=tuple(items), chunk_size=chunk_size))
-        == expected_list
-    )
+    assert list(pbatch.partition(items=tuple(items), chunk_size=chunk_size)) == expected_list
 
 
 @pytest.mark.parametrize(PARAMETERS, EXPECTED_PARTITIONS)
@@ -79,17 +76,12 @@ def test_set_items(items, chunk_size, expected_list):
         return
 
     partitions = pbatch.partition(items=set(items), chunk_size=chunk_size)
-    assert sorted(itertools.chain(*partitions)) == sorted(
-        itertools.chain(*expected_list)
-    )
+    assert sorted(itertools.chain(*partitions)) == sorted(itertools.chain(*expected_list))
 
 
 @pytest.mark.parametrize(PARAMETERS, EXPECTED_PARTITIONS)
 def test_iter_items(items, chunk_size, expected_list):
-    assert (
-        list(pbatch.partition(items=iter(items), chunk_size=chunk_size))
-        == expected_list
-    )
+    assert list(pbatch.partition(items=iter(items), chunk_size=chunk_size)) == expected_list
 
 
 @pytest.mark.parametrize(PARAMETERS, EXPECTED_PARTITIONS)
@@ -97,10 +89,7 @@ def test_generator_items(items, chunk_size, expected_list):
     def items_generator():
         yield from items
 
-    assert (
-        list(pbatch.partition(items=items_generator(), chunk_size=chunk_size))
-        == expected_list
-    )
+    assert list(pbatch.partition(items=items_generator(), chunk_size=chunk_size)) == expected_list
 
 
 def test_consumes_iterator():
