@@ -1,3 +1,5 @@
+import asyncio
+
 import pytest
 
 import pbatch
@@ -15,6 +17,17 @@ def test_postpone():
 
     postponement = pbatch.postpone(add, 1, 2, c=100)
     assert postponement.wait() == 103
+
+
+def test_cancel():
+    def to_cancel():
+        return 0
+
+    postponement = pbatch.postpone(to_cancel)
+    postponement.cancel()
+
+    with pytest.raises(asyncio.CancelledError):
+        postponement.wait()
 
 
 def test_exception():

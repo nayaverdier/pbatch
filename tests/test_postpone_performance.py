@@ -44,11 +44,7 @@ def test_postpone_performance():
 
 
 def test_cancel():
-    executed = False
-
     def long_function():
-        nonlocal executed
-        executed = True
         time.sleep(PERFORMANCE_SLEEP_TIME)
 
     start = time.time()
@@ -56,12 +52,9 @@ def test_cancel():
     postponement = pbatch.postpone(long_function)
     postponement.cancel()
 
-    with pytest.raises(asyncio.CancelledError) as info:
+    with pytest.raises(asyncio.CancelledError):
         postponement.wait()
-    assert info.value.args == ()
 
     end = time.time()
     duration = end - start
     assert duration < PERFORMANCE_SLEEP_TIME
-
-    assert executed
