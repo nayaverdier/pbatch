@@ -146,7 +146,7 @@ def _make_async_mapper(f: Callable[..., OutputType]):
 
         # .wait requires at least one task
         if tasks:
-            await asyncio.wait(tasks, loop=loop)
+            await asyncio.wait(tasks)
 
         results = []
         exceptions = []
