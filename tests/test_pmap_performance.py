@@ -21,7 +21,7 @@ def timed(f, *args, **kwargs):
 
 @pytest.mark.parametrize("include_power", [True, False])
 @pytest.mark.parametrize("chunk_size", [None, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100])
-def test_performance_multiple_arity(chunk_size, include_power):
+def test_pmap_performance(chunk_size, include_power):
     def sleep_exp(x, power=2):
         time.sleep(PERFORMANCE_SLEEP_TIME)
         return x ** power

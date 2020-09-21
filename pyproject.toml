@@ -20,8 +20,6 @@ deps = -e .[dev]
 whitelist_externals = pytest
 commands = pytest -p no:cacheprovider --cov=pbatch --cov-report term-missing {posargs} tests/
 
-[testenv:pre-commit]
-deps = pre-commit
-whitelist_externals = pre-commit
-commands = pre-commit run --all-files
+[testenv:py38]
+commands = pytest -p no:cacheprovider --cov=pbatch --cov-report term-missing {posargs} tests/ -m "not performance"
 """

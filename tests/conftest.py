@@ -2,7 +2,7 @@ import asyncio
 
 import pytest
 
-PERFORMANCE_SLEEP_TIME = 0.10
+PERFORMANCE_SLEEP_TIME = 0.05
 
 
 @pytest.yield_fixture
