@@ -1,4 +1,9 @@
 # pbatch
+[![travis](https://travis-ci.com/nayaverdier/pbatch.svg?branch=main)](https://travis-ci.com/nayaverdier/pbatch)
+Coverage
+[![codecov](https://codecov.io/gh/nayaverdier/pbatch/branch/main/graph/badge.svg)](https://codecov.io/gh/nayaverdier/pbatch)
+[![pypi](https://img.shields.io/pypi/v/pbatch)](https://pypi.org/project/pbatch)
+[![license](https://img.shields.io/github/license/nayaverdier/pbatch.svg)](https://github.com/nayaverdier/pbatch/blob/main/LICENSE)
 
 Parallel batch processing on top of regular python functions
 

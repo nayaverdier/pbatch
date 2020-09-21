@@ -11,6 +11,9 @@ legacy_tox_ini = """
 envlist = py37,py38
 skipsdist = True
 
+[commands]
+pytest = pytest -p no:cacheprovider --cov=pbatch --cov-report term-missing {posargs} tests/
+
 [testenv]
 depends = clean-coverage
 setenv =
@@ -18,8 +21,8 @@ setenv =
 parallel_show_output = True
 deps = -e .[dev]
 whitelist_externals = pytest
-commands = pytest -p no:cacheprovider --cov=pbatch --cov-report term-missing {posargs} tests/
+commands = {[commands]pytest}
 
 [testenv:py38]
-commands = pytest -p no:cacheprovider --cov=pbatch --cov-report term-missing {posargs} tests/ -m "not performance"
+commands = {[commands]pytest} -m "not performance"
 """

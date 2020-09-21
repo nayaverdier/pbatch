@@ -3,6 +3,9 @@ python:
 - 3.7
 - 3.8
 install:
-- pip install tox-travis
+- pip install tox-travis==0.12 codecov==2.1.9
 script:
-- tox
+- tox || exit 1
+after_success:
+- coverage xml
+- codecov
