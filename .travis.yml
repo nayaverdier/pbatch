@@ -4,6 +4,7 @@ python:
 - 3.8
 install:
 - pip install ".[dev]"
+- pip install tox-travis
 script:
 - pre-commit run --all-files || exit 1
-- tox -p || exit 1
+- tox
