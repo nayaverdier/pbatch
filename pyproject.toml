@@ -16,6 +16,7 @@ depends = clean-coverage
 setenv =
     PYTHONDONTWRITEBYTECODE = 1
 parallel_show_output = True
+deps = ".[dev]"
 whitelist_externals = pytest
 commands = pytest -p no:cacheprovider --cov=pbatch --cov-report term-missing {posargs} tests/
 
