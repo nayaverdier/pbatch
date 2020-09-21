@@ -1,0 +1,8 @@
+language: python
+python:
+- '3.7'
+install:
+- pip install ".[dev]"
+script:
+- pre-commit run --all-files || exit 1
+- tox -p || exit 1
