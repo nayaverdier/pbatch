@@ -19,11 +19,9 @@ DEV_REQUIRES = [
     "flake8-bugbear==20.1.4",
     "isort==5.5.1",
     "mypy==0.782",
-    "pre-commit==2.7.1",
     "pytest==6.0.1",
     "pytest-cov==2.10.1",
-    "pytest-mock==3.3.1",
-    "tox==3.20.0",
+    "twine==3.2.0",
 ]
 
 setup(

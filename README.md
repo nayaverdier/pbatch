@@ -183,17 +183,16 @@ Clone the repo, then from the project directory:
 ```bash
 python3.7 -m venv .venv
 . .venv/bin/activate
-pip install -e ".[dev]"
-pre-commit install
+
+make install-dev
 ```
 
 To run tests (and show coverage):
 ```bash
-tox -p
-
-# to skip performances test (speeds up testing)
-tox -p -- -m "not performance"
+make test
 ```
 
-Make sure to run `pre-commit` before any commits. `pre-commit install`
-will automatically do this before committing.
+Before making changes, fix formatting and check changes (isort, black, flake8, mypy:
+```bash
+make format check
+```
