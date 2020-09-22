@@ -12,9 +12,9 @@ pytestmark = [pytest.mark.performance]
 PERFORMANCE_ITEMS = range(10)
 
 
-def timed(f, *args, **kwargs):
+def time_list(f, *args, **kwargs):
     start = time.time()
-    result = f(*args, **kwargs)
+    result = list(f(*args, **kwargs))
     end = time.time()
     return result, (end - start)
 
@@ -33,9 +33,9 @@ def test_pmap_performance(chunk_size, include_power):
 
     if include_power:
         powers = [3] * len(PERFORMANCE_ITEMS)
-        results, duration = timed(pbatch.pmap, sleep_exp, PERFORMANCE_ITEMS, powers, chunk_size=chunk_size)
+        results, duration = time_list(pbatch.pmap, sleep_exp, PERFORMANCE_ITEMS, powers, chunk_size=chunk_size)
     else:
-        results, duration = timed(pbatch.pmap, sleep_exp, PERFORMANCE_ITEMS, chunk_size=chunk_size)
+        results, duration = time_list(pbatch.pmap, sleep_exp, PERFORMANCE_ITEMS, chunk_size=chunk_size)
 
     if include_power:
         assert results == [0, 1, 8, 27, 64, 125, 216, 343, 512, 729]

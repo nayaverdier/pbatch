@@ -79,6 +79,11 @@ list(pbatch.pmap(multiple_args, [1, 2], [60, 70], [1000, 2000], chunk_size=1))
 Note that if one iterable is shorter than the rest, remaining elements
 in the other iterators will be ignored.
 
+If an exception is raised when processing an item, the remaining
+elements in the current chunk will be completed and then a
+`pbatch.PMapException` will be raised, including the results and
+exception from the _current_ chunk.
+
 If any of the subtasks raises an exception, a `pbatch.PMapException`
 will be raised:
 
@@ -89,7 +94,7 @@ def raise_on_two(x):
     return x
 
 try:
-    pbatch.pmap(raise_on_two, [1, 2, 3])
+    list(pbatch.pmap(raise_on_two, [1, 2, 3]))
 except pbatch.PMapException as e:
     e.results
     # => [1, ValueError("Number is two"), 3]
@@ -103,6 +108,27 @@ except pbatch.PMapException as e:
     repr(e)
     # => "[1, ValueError('Number is two'), 3]"
 ```
+
+If directly converting the results to a list, as above, and an
+exception is raised after the first chunk successfully completes, the
+results from the first chunk will be forgotten. If such results are
+important, it is better to manually process each item out of the
+generator, as chunks are generated:
+
+```python
+results = []
+try:
+    for result in pbatch.pmap(...):
+        results.append(result)
+except pbatch.PMapException as e:
+    results.extend(e.results)
+```
+
+After executing, `results` will contain all results that were
+successfully processed without raising an exception.
+
+Alternatively, wrap the function being mapped in a try/except block to
+have more full control over when a `PMapException` will be raised.
 
 ### `pbatch.postpone`
 

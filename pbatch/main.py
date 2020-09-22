@@ -1,6 +1,6 @@
 import asyncio
 import itertools
-from typing import Any, Callable, Coroutine, Iterable, List, Optional, Tuple, TypeVar
+from typing import Any, Callable, Coroutine, Generator, Iterable, List, Optional, Tuple, TypeVar
 
 OutputType = TypeVar("OutputType")
 
@@ -107,7 +107,7 @@ def pmap(
     iterable: Iterable,
     *iterables: Iterable,
     chunk_size: int = None,
-) -> List[OutputType]:
+) -> Generator[OutputType, None, None]:
     """Maps a function over the provided arguments, in parallel. If
     multiple iterables are provided, the function must accept that
     many arguments and will be passed a corresponding value from each
@@ -124,6 +124,8 @@ def pmap(
     :param chunk_size: (optional) The maximum number of items to run
         at any given time. If None, all items will be executed at the
         same time. Defaults to None
+    :param lazy: Whether or not to lazily process chunks when
+        requested, defaults to False
 
     :return: A list of return values for each function call (in the
         same order as the items coming in)
@@ -133,8 +135,14 @@ def pmap(
     """
 
     partitions = partition(zip(iterable, *iterables), chunk_size)
+    async_mapper = _make_async_mapper(f)
+    loop = asyncio.new_event_loop()
 
-    return list(_run_pmap(f, partitions))
+    try:
+        for chunk in partitions:
+            yield from loop.run_until_complete(async_mapper(loop, chunk))
+    finally:
+        loop.close()
 
 
 def _make_async_mapper(f: Callable[..., OutputType]):
@@ -164,20 +172,6 @@ def _make_async_mapper(f: Callable[..., OutputType]):
         return results
 
     return async_mapper
-
-
-def _run_pmap(
-    f: Callable[..., OutputType],
-    partitions: Iterable[List[Tuple]],
-) -> Iterable[OutputType]:
-    async_mapper = _make_async_mapper(f)
-    loop = asyncio.new_event_loop()
-
-    try:
-        for partition in partitions:
-            yield from loop.run_until_complete(async_mapper(loop, partition))
-    finally:
-        loop.close()
 
 
 def _run_in_background(f: Callable[..., OutputType], loop, args, kwargs) -> Coroutine[Any, Any, OutputType]:
