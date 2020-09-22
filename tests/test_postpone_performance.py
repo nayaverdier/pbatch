@@ -28,7 +28,7 @@ def test_postpone_performance():
     assert executed
     assert not finished
 
-    time.sleep(PERFORMANCE_SLEEP_TIME / 2)
+    time.sleep(PERFORMANCE_SLEEP_TIME)
 
     start = time.time()
     assert postponement.wait() == 103
