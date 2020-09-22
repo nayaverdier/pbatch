@@ -27,9 +27,9 @@ def test_pmap_performance(chunk_size, include_power):
         return x ** power
 
     number_partitions = len(list(pbatch.partition(PERFORMANCE_ITEMS, chunk_size=chunk_size)))
-    # plus one for buffer of execution overhead (assuming overhead is
+    # plus two for buffer of execution overhead (assuming overhead is
     # less than PERFORMANCE_SLEEP_TIME)
-    max_time = PERFORMANCE_SLEEP_TIME * (number_partitions + 1)
+    max_time = PERFORMANCE_SLEEP_TIME * (number_partitions + 2)
 
     if include_power:
         powers = [3] * len(PERFORMANCE_ITEMS)
