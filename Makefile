@@ -4,7 +4,7 @@ black = black pbatch tests
 flake8 = flake8 pbatch tests
 isort = isort pbatch tests
 mypy = mypy pbatch
-install-pip = python -m pip install -U setuptools pip
+install-pip = python -m pip install -U setuptools pip wheel
 test = pytest --cov=pbatch --cov-report term-missing tests/
 
 .PHONY: install
