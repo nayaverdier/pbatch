@@ -5,6 +5,7 @@ flake8 = flake8 pbatch tests
 isort = isort pbatch tests
 mypy = mypy pbatch
 install-pip = python -m pip install -U setuptools pip
+test = pytest --cov=pbatch --cov-report term-missing tests/
 
 .PHONY: install
 install:
@@ -30,7 +31,11 @@ check:
 
 .PHONY: test
 test:
-	pytest --cov=pbatch --cov-report term-missing tests/
+	$(test)
+
+.PHONY: test-fast
+test-fast:
+	$(test) -m "not performance"
 
 .PHONY: coverage
 coverage:
